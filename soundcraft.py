@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 
+from gi import require_version
+require_version('Hinawa', '1.0')
 from gi.repository import Hinawa
 
-from ta1394.general import AvcGeneral
 from ta1394.ccm import AvcCcm
+from bridgeco.bebobnormal import BebobNormal
+
+from sys import argv
 
 path = '/dev/fw{0}'.format(argv[1])
-unit = Hinawa.FwUnit(path)
+unit = BebobNormal(path)
 unit.listen()
 
 fcp = Hinawa.FwFcp()
@@ -24,17 +28,18 @@ clk_opt_src = AvcCcm.get_unit_signal_addr('external', 18)
 
 # Retrieve current source
 curr_src = AvcCcm.get_signal_source(fcp, clk_dst)
+print(curr_src)
 # The curr_src may be one of the above sources.
 
 # Check avail or not
 # If not, exception raises.
-AvcCcm.ask_signal_source(fcp, clk_csp_src)
-AvcCcm.ask_signal_source(fcp, clk_word_src)
-AvcCcm.ask_signal_source(fcp, clk_opt_src)
+AvcCcm.ask_signal_source(fcp, clk_csp_src, clk_dst)  # Not Implemented
+AvcCcm.ask_signal_source(fcp, clk_word_src, clk_dst)
+AvcCcm.ask_signal_source(fcp, clk_opt_src, clk_dst)
 
 # Change signal source
 # I mis-spelled the name of function...
-AvcCcm.set_signal_souarce(fcp, clk_dst)
-AvcCcm.set_signal_souarce(fcp, clk_word_src)
-AvcCcm.set_signal_souarce(fcp, clk_opt_src)
+AvcCcm.set_signal_souarce(fcp, clk_csp_src, clk_dst) # Unknown status
+AvcCcm.set_signal_souarce(fcp, clk_word_src, clk_dst) # Unknown status
+AvcCcm.set_signal_souarce(fcp, clk_opt_src, clk_dst) # Unknown status
 
