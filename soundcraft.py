@@ -5,12 +5,12 @@ require_version('Hinawa', '1.0')
 from gi.repository import Hinawa
 
 from ta1394.ccm import AvcCcm
-from bridgeco.bebobnormal import BebobNormal
+from bebob.bebob_unit import BebobUnit
 
 from sys import argv
 
 path = '/dev/fw{0}'.format(argv[1])
-unit = BebobNormal(path)
+unit = BebobUnit(path)
 unit.listen()
 
 fcp = Hinawa.FwFcp()
@@ -38,8 +38,7 @@ AvcCcm.ask_signal_source(fcp, clk_word_src, clk_dst)
 AvcCcm.ask_signal_source(fcp, clk_opt_src, clk_dst)
 
 # Change signal source
-# I mis-spelled the name of function...
-AvcCcm.set_signal_souarce(fcp, clk_csp_src, clk_dst) # Unknown status
-AvcCcm.set_signal_souarce(fcp, clk_word_src, clk_dst) # Unknown status
-AvcCcm.set_signal_souarce(fcp, clk_opt_src, clk_dst) # Unknown status
+AvcCcm.set_signal_source(fcp, clk_csp_src, clk_dst)  # Unknown status
+AvcCcm.set_signal_source(fcp, clk_word_src, clk_dst)  # Unknown status
+AvcCcm.set_signal_source(fcp, clk_opt_src, clk_dst)  # Unknown status
 
